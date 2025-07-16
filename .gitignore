@@ -1,0 +1,95 @@
+# ========================
+# OS-SPECIFIC (macOS)
+# ========================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# ========================
+# JAVA
+# ========================
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.tmp
+*.swp
+*.swo
+hs_err_pid*
+
+# ========================
+# MAVEN
+# ========================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+
+# ========================
+# GRADLE
+# ========================
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# ========================
+# IDEs
+# --- IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+*.ipr
+
+# --- Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+# --- VS Code
+.vscode/
+
+# ========================
+# SPRING BOOT & ENV
+# ========================
+*.env
+.env.*
+application-dev.yml
+application-local.yml
+application-test.yml
+application-prod.yml
+application-dev.properties
+application-local.properties
+application-test.properties
+application-prod.properties
+
+# ========================
+# LOGS, TEST REPORTS, DATABASE
+# ========================
+logs/
+*.log
+test-output/
+surefire-reports/
+*.h2.db
+*.mv.db
+*.sqlite
+
+# ========================
+# NODE (if you have frontend)
+# ========================
+node_modules/
+dist/
+build/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+pnpm-lock.yaml
+yarn.lock

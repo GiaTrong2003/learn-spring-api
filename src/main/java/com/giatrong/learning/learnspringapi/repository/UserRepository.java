@@ -1,0 +1,14 @@
+package com.giatrong.learning.learnspringapi.repository;
+
+import com.giatrong.learning.learnspringapi.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository // Đánh dấu đây là một Bean thuộc tầng Repository để Spring quản lý
+public interface UserRepository extends JpaRepository<User, Long> {
+    // Chỉ cần có vậy! Không cần viết thêm bất cứ dòng code nào.
+
+    List<User> findUserByFullName(String fullName);
+}

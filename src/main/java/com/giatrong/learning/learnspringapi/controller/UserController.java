@@ -1,7 +1,10 @@
 package com.giatrong.learning.learnspringapi.controller;
 
+import com.giatrong.learning.learnspringapi.dto.response.ApiResponse;
+import com.giatrong.learning.learnspringapi.dto.response.UserDto;
 import com.giatrong.learning.learnspringapi.entity.User;
 import com.giatrong.learning.learnspringapi.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,34 +23,39 @@ public class UserController {
     // API Lấy tất cả người dùng
     // Endpoint: GET http://localhost:8080/api/v1/users
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<ApiResponse<List<UserDto>>> getAllUsers() {
+        List<UserDto> users = userService.getAllUsers();
+        ApiResponse<List<UserDto>> apiResponse = ApiResponse.success(users, "Get all users successfully", HttpStatus.OK.value());
+        System.out.println(apiResponse);
+        return ResponseEntity.ok(apiResponse);
     }
 
     // API Lấy người dùng theo ID
     // Endpoint: GET http://localhost:8080/api/v1/users/1
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        return userService.getUserById(id)
-                .map(user -> ResponseEntity.ok(user)) // Nếu tìm thấy, trả về status 200 OK và body là user
-                .orElse(ResponseEntity.notFound().build()); // Nếu không, trả về status 404 Not Found
+    public ResponseEntity<ApiResponse<UserDto>> getUserById(@PathVariable Long id) {
+        UserDto user = userService.getUserById(id);
+        ApiResponse<UserDto> apiResponse = ApiResponse.success(user, "Get user by ID successfully", HttpStatus.OK.value());
+        return ResponseEntity.ok(apiResponse);
     }
 
     // API Tạo người dùng mới
     // Endpoint: POST http://localhost:8080/api/v1/users
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        // @RequestBody sẽ tự động chuyển JSON từ client gửi lên thành đối tượng User
-        return userService.createUser(user);
+    public ResponseEntity<ApiResponse<UserDto>> createUser(@RequestBody User user) {
+        UserDto createdUser = userService.createUser(user);
+        ApiResponse<UserDto> apiResponse = ApiResponse.success(createdUser, "User created successfully", HttpStatus.CREATED.value());
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     // API Cập nhật người dùng
     // Endpoint: PUT http://localhost:8080/api/v1/users/1
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+    public ResponseEntity<ApiResponse<User>> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
         try {
             User updatedUser = userService.updateUser(id, userDetails);
-            return ResponseEntity.ok(updatedUser);
+            ApiResponse<User> apiResponse = ApiResponse.success(updatedUser, "User updated successfully", HttpStatus.OK.value());
+            return ResponseEntity.ok(apiResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }

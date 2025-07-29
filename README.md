@@ -9,7 +9,7 @@ A Spring Boot REST API project for learning purposes, demonstrating CRUD operati
 - [Installation](#installation)
 - [Configuration](#configuration)
 
-## ✨ Features
+## Features
 - RESTful API with Spring Boot
 - User management (CRUD operations)
 - MySQL database integration with JPA/Hibernate
@@ -17,7 +17,7 @@ A Spring Boot REST API project for learning purposes, demonstrating CRUD operati
 - Lombok for reducing boilerplate code
 - Maven build system
 
-## 🛠 Tech Stack
+## Tech Stack
 - **Java**: 24
 - **Spring Boot**: 3.5.3
 - **Spring Data JPA**: For database operations
@@ -25,13 +25,13 @@ A Spring Boot REST API project for learning purposes, demonstrating CRUD operati
 - **Lombok**: Code generation
 - **Maven**: Build tool
 
-## 📋 Prerequisites
+## Prerequisites
 - Java JDK 24
 - Maven 3.6+
 - MySQL 8.0+
 - IDE (IntelliJ IDEA recommended)
 
-## 🚀 Installation
+## Installation
 
 1. **Clone the repository**
    ```bash

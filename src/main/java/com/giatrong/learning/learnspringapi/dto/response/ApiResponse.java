@@ -1,5 +1,6 @@
 package com.giatrong.learning.learnspringapi.dto.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import java.util.List;
 @Builder // using a builder pattern to create instances of this class
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(description = "Generic API response object")
 public class ApiResponse<T> { // T is a generic type, can be any type of object
     private int statusCode; // HTTP status code
     private String message;

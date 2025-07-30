@@ -54,5 +54,13 @@ public class ApiExceptionHandler {
                 .body(ApiResponse.error(errorCode.getStatusCode().value(), errorCode.getMessage()));
     }
 
+    /**
+     * 4. Catch and handle: validation exceptions
+     */
+
+    /**
+     * 5. Catch and handle: AccessDeniedException (Spring Security)
+     */
+
 
 }

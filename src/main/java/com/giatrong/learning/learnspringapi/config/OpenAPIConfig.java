@@ -12,6 +12,7 @@ public class OpenAPIConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
+        // call api: http://localhost:8080/swagger-ui.html
         return new OpenAPI()
                 .info(new Info()
                         .title("Learn Spring API")

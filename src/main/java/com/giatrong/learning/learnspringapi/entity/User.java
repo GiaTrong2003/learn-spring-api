@@ -1,25 +1,75 @@
 package com.giatrong.learning.learnspringapi.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-@Data // Annotation của Lombok: Tự động tạo getter, setter, toString()...
-@Entity // Đánh dấu class này là một Entity, cần được ánh xạ xuống DB.
-@Table(name = "users") // Chỉ định rõ tên của bảng trong DB sẽ là "users".
-public class User {
+import java.util.Collection;
+import java.util.List;
 
-    @Id // Đánh dấu trường này là khóa chính (Primary Key).
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ID sẽ được tự động tăng bởi MySQL.
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "users")
+public class User implements UserDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // nullable = false: Cột này không được phép null.
-    // unique = true: Giá trị trong cột này không được trùng lặp.
     @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
     private String password;
 
-    // Nếu không có @Column, Hibernate sẽ tự tạo cột với tên giống tên trường.
     private String fullName;
+
+    // NOTE: Trong thực tế, bạn sẽ cần thêm một trường role, ví dụ:
+    // @Enumerated(EnumType.STRING)
+    // private Role role;
+    // Và getAuthorities() sẽ trả về role đó. Ở đây ta làm đơn giản.
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Trả về danh sách quyền của người dùng.
+        // Ví dụ: return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(); // Để đơn giản, ta trả về danh sách rỗng
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

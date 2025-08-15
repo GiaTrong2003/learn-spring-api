@@ -1,5 +1,7 @@
 package com.giatrong.learning.learnspringapi.controller;
 
+import com.giatrong.learning.learnspringapi.dto.request.User.UserCreateRequest;
+import com.giatrong.learning.learnspringapi.dto.request.User.UserUpdateRequest;
 import com.giatrong.learning.learnspringapi.dto.response.ApiResponse;
 import com.giatrong.learning.learnspringapi.dto.response.UserDto;
 import com.giatrong.learning.learnspringapi.entity.User;
@@ -46,7 +48,7 @@ public class UserController {
     // API Tạo người dùng mới
     // Endpoint: POST http://localhost:8080/api/v1/users
     @PostMapping
-    public ResponseEntity<ApiResponse<UserDto>> createUser(@RequestBody User user) {
+    public ResponseEntity<ApiResponse<UserDto>> createUser(@RequestBody UserCreateRequest user) {
         UserDto createdUser = userService.createUser(user);
         ApiResponse<UserDto> apiResponse = ApiResponse.success(createdUser, "User created successfully", HttpStatus.CREATED.value());
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
@@ -55,10 +57,10 @@ public class UserController {
     // API Cập nhật người dùng
     // Endpoint: PUT http://localhost:8080/api/v1/users/1
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<User>> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+    public ResponseEntity<ApiResponse<UserDto>> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest userDetails) {
         try {
-            User updatedUser = userService.updateUser(id, userDetails);
-            ApiResponse<User> apiResponse = ApiResponse.success(updatedUser, "User updated successfully", HttpStatus.OK.value());
+            UserDto updatedUser = userService.updateUser(id, userDetails);
+            ApiResponse<UserDto> apiResponse = ApiResponse.success(updatedUser, "User updated successfully", HttpStatus.OK.value());
             return ResponseEntity.ok(apiResponse);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();

@@ -1,68 +1,82 @@
 package com.giatrong.learning.learnspringapi.service;
 
+import com.giatrong.learning.learnspringapi.dto.request.User.UserCreateRequest;
+import com.giatrong.learning.learnspringapi.dto.request.User.UserUpdateRequest;
 import com.giatrong.learning.learnspringapi.dto.response.UserDto;
 import com.giatrong.learning.learnspringapi.entity.User;
 import com.giatrong.learning.learnspringapi.exception.ResourceNotFoundException;
 import com.giatrong.learning.learnspringapi.mapper.UserMapper;
 import com.giatrong.learning.learnspringapi.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder; // Giả sử bạn có tiêm PasswordEncoder
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service // Đánh dấu đây là một Bean thuộc tầng Service
+@Service
+@RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
+    private final UserMapper userMapper; // Sử dụng instance này
+    private final PasswordEncoder passwordEncoder; // Cần thiết cho việc tạo/cập nhật user
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    // Phương thức để lấy tất cả người dùng
+    // Lấy tất cả người dùng
     public List<UserDto> getAllUsers() {
-        List<UserDto> list = userRepository.findAll()
-                // call method .stream() to handle each element in the list
-                .stream()// convert from List<User> to Stream<User>, Stream is a sequence of elements supporting sequential and parallel aggregate operations
-                // using toDto method from UserMapper to convert each User entity to UserDto
-                // this sentence will equivalent to: .map(user -> UserMapper.toDto(user))
-                .map(UserMapper::toDto)
-                // collect the results back to a List<UserDto>
+        return userRepository.findAll()
+                .stream()
+                // Dùng instance mapper đã được tiêm vào
+                .map(userMapper::toDto)
                 .toList();
-        return list;
     }
 
-    // Phương thức để lấy một người dùng theo ID
+    // Lấy một người dùng theo ID
     public UserDto getUserById(Long id) {
         return userRepository.findById(id)
-                // Nếu tìm thấy, chuyển đổi sang UserDto, nếu không sẽ ném ra ngoại lệ ResourceNotFoundException;
-                // .map() only applies if the Optional contains a value, otherwise ( nếu không thì ) it returns an empty Optional
-                .map(UserMapper::toDto)
+                // Dùng instance mapper đã được tiêm vào
+                .map(userMapper::toDto)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
 
-    // Phương thức để tạo một người dùng mới
-    public UserDto createUser(User user) {
-        // Trong tương lai, chúng ta có thể thêm logic kiểm tra dữ liệu ở đây
-        return UserMapper.toDto((userRepository.save(user)));
+    // Tạo một người dùng mới từ DTO
+    public UserDto createUser(UserCreateRequest request) {
+        // Kiểm tra xem username đã tồn tại chưa (ví dụ)
+        if (userRepository.getUsersByFullName(request.getFullName())) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+
+        // Dùng mapper để chuyển đổi an toàn từ Request DTO sang Entity
+        User user = userMapper.toEntity(request);
+
+        // Xử lý logic nghiệp vụ không thuộc về mapper (như mã hóa mật khẩu)
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        User savedUser = userRepository.save(user);
+
+        return userMapper.toDto(savedUser);
     }
 
-    // Phương thức để cập nhật thông tin người dùng
-    public User updateUser(Long id, User userDetails) {
-        // Tìm user trong DB, nếu không có sẽ báo lỗi
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+    // Cập nhật thông tin người dùng từ DTO
+    public UserDto updateUser(Long id, UserUpdateRequest request) {
+        // 1. Tìm user hiện tại trong DB
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
 
-        // Cập nhật thông tin từ userDetails vào user đã tìm thấy
-        user.setUsername(userDetails.getUsername());
-        user.setPassword(userDetails.getPassword());
-        user.setFullName(userDetails.getFullName());
+        // 2. Dùng mapper để cập nhật các trường từ DTO vào entity đã có
+        // Mapper sẽ tự động bỏ qua các trường null và các trường được đánh dấu @Mapping(ignore=true)
+        userMapper.updateEntityFromDto(request, existingUser);
 
-        // Lưu lại user đã được cập nhật vào DB
-        return userRepository.save(user);
+        User updatedUser = userRepository.save(existingUser);
+
+        return userMapper.toDto(updatedUser);
     }
 
-    // Phương thức để xóa người dùng
+    // Xóa người dùng
     public void deleteUser(Long id) {
+        // Kiểm tra xem user có tồn tại không trước khi xóa
+        if (!userRepository.existsById(id)) {
+            throw new ResourceNotFoundException("User not found with id: " + id);
+        }
         userRepository.deleteById(id);
     }
 }

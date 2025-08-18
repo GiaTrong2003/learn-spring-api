@@ -1,12 +1,12 @@
 package com.giatrong.learning.learnspringapi.service;
 
+import com.giatrong.learning.learnspringapi.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -21,7 +21,7 @@ public class JwtService {
     @Value("${jwt.secret:your-secret}")
     private String SECRET;
 
-    @Value("${jwt.expiration:86400000}")
+    @Value("${jwt.expiration:3600}") // 3600 seconds = 1 hour
     private long EXPIRATION_TIME;
 
     // Trích xuất username từ token
@@ -35,30 +35,30 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    // Tạo token chỉ với UserDetails
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    // Tạo token chỉ với User
+    public String generateToken(User user) {
+        return generateToken(new HashMap<>(), user);
     }
 
     // Tạo token với các extra claims
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails
+            User user
     ) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME * 1000)) // param here is in milliseconds => must * 1000 to convert seconds to milliseconds
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     // Kiểm tra token có hợp lệ không
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, User user) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return (username.equals(user.getUsername())) && !isTokenExpired(token);
     }
 
     // Kiểm tra token đã hết hạn chưa

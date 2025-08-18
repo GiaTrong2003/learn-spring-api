@@ -4,12 +4,13 @@ import com.giatrong.learning.learnspringapi.dto.request.User.UserCreateRequest;
 import com.giatrong.learning.learnspringapi.dto.request.User.UserUpdateRequest;
 import com.giatrong.learning.learnspringapi.dto.response.ApiResponse;
 import com.giatrong.learning.learnspringapi.dto.response.UserDto;
-import com.giatrong.learning.learnspringapi.entity.User;
 import com.giatrong.learning.learnspringapi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,6 +58,9 @@ public class UserController {
     // API Cập nhật người dùng
     // Endpoint: PUT http://localhost:8080/api/v1/users/1
     @PutMapping("/{id}")
+    @PreAuthorize("isAuthenticated()") // need JWT token to access this endpoint
+    @SecurityRequirement(name = "bearerAuth") // Swagger security requirement for JWT token
+//    @PreAuthorize("hasRole('ADMIN')") // only for users with an ADMIN role
     public ResponseEntity<ApiResponse<UserDto>> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest userDetails) {
         try {
             UserDto updatedUser = userService.updateUser(id, userDetails);

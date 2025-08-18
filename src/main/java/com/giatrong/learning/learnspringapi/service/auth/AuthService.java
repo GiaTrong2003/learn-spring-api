@@ -1,4 +1,4 @@
-package com.giatrong.learning.learnspringapi.service.Auth;
+package com.giatrong.learning.learnspringapi.service.auth;
 
 import com.giatrong.learning.learnspringapi.dto.request.Auth.LoginRequest;
 import com.giatrong.learning.learnspringapi.dto.request.Auth.RegisterRequest;
@@ -35,7 +35,7 @@ public class AuthService {
         var savedUser = userRepository.save(user);
 
         // 4. generate a JWT token for the saved user
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(savedUser);
 
         return AuthResponse.builder().token(jwtToken).user(savedUser).build();
     }

@@ -18,6 +18,10 @@ public enum ErrorCode { // enum: a special Java type used to define collections 
     // == Common error codes ==
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception", HttpStatus.INTERNAL_SERVER_ERROR),
 
+    // == Validation error codes ==
+    INVALID_INPUT(1010, "Invalid input data", HttpStatus.BAD_REQUEST),
+    VALIDATION_FAILED(1011, "Validation failed", HttpStatus.BAD_REQUEST),
+
     // == User error codes ==
     INVALID_KEY(1000, "Invalid message key", HttpStatus.BAD_REQUEST),
     USER_EXISTED(1001, "User existed", HttpStatus.BAD_REQUEST),
@@ -27,7 +31,11 @@ public enum ErrorCode { // enum: a special Java type used to define collections 
     DOB_INVALID(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTED(1005, "User is not existed", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
-    UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN);
+    UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
+
+    // == Access denied ==
+    ACCESS_DENIED(1009, "Access denied", HttpStatus.FORBIDDEN);
+
 
     // ==  Constructor ==
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

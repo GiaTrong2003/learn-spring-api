@@ -1,11 +1,11 @@
-package com.giatrong.learning.learnspringapi.repository.Auth;
+package com.giatrong.learning.learnspringapi.controller.Auth;
 
 import com.giatrong.learning.learnspringapi.dto.request.Auth.LoginRequest;
 import com.giatrong.learning.learnspringapi.dto.request.Auth.RegisterRequest;
 import com.giatrong.learning.learnspringapi.dto.response.ApiResponse;
 import com.giatrong.learning.learnspringapi.dto.response.Auth.AuthResponse;
-import com.giatrong.learning.learnspringapi.service.Auth.AuthService;
 //import io.swagger.v3.oas.annotations.parameters.RequestBody; -> sai :)))
+import com.giatrong.learning.learnspringapi.service.auth.AuthService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

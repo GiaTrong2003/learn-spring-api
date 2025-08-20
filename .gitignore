@@ -60,7 +60,6 @@ bin/
 # SPRING BOOT & ENV
 # ========================
 *.env
-.env.*
 application-dev.yml
 application-local.yml
 application-test.yml

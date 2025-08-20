@@ -1,17 +1,40 @@
-spring:
-  application:
-    name: learn-spring-api
-  profiles:
-    active: dev
-  datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-
-
-jwt:
-  secret: ${JWT_SECRET}
-  expiration: ${JWT_EXPIRATION}
-
 server:
   port: 8080
+
+spring:
+  profiles:
+    active: dev # change to 'prod' when deploying to production
+  application:
+    name: learn-spring-api
+  jpa: # JPA configuration
+    hibernate: # Hibernate configuration
+      ddl-auto: update # Automatically update the database schema
+    show-sql: true # Show SQL queries in the console
+    properties: # Hibernate properties
+      hibernate: # Hibernate settings
+        format_sql: true # Format SQL queries for better readability
+        use_sql_comments: true # Use SQL comments in the generated SQL
+        type: trace # Enable SQL tracing
+        jdbc: # JDBC settings
+          lob: # Enable Large Object support
+            non_contextual_creation: true # Use non-contextual creation for LOBs
+
+  output: # Output settings
+    ansi: # Enable ANSI colors in the console output
+      enabled: always # Always enable ANSI colors
+    servlet: # Servlet settings
+      multipart: # Multipart file upload settings
+        max-file-size: 2MB # Maximum file size for uploads -> implement in the future
+        max-request-size: 2MB # Maximum request size for uploads -> implement in the future
+
+  springdoc:
+    api-docs:
+      path: /api-docs
+      enabled: true
+    swagger-ui:
+      tags-sorter: alpha
+      path: /api/v1/docs
+
+  logging:
+    file:
+      name: ./logs/app.log

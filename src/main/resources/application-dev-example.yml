@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:${DB_PORT}/${DB_DATABASE_NAME} # e.g., jdbc:mysql://localhost:3306/mydb
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  data: # Implement in the future
+    redis:
+      host: localhost
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+
+jwt:
+  access:
+    secret: ${JWT_ACCESS_SECRET} # e.g., your-access-secret
+    expiration: 3600 # 1 hour
+  refresh:
+    secret: ${JWT_REFRESH_SECRET} # e.g., your-refresh-secret
+    expiration: 604800 # 7 days

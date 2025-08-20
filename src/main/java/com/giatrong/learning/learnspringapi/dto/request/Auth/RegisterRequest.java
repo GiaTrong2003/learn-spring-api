@@ -33,4 +33,12 @@ public class RegisterRequest {
     @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Full name can only contain letters and spaces")
     @Schema(description = "Full name of the user", example = "John Doe", required = true)
     private String fullName;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email must be a valid email address")
+    @Size(max = 100, message = "Email must not exceed 100 characters")
+    @Schema(description = "Email address of the user", example = "john.doe@example.com", required = true)
+    private String email;
+
+    private String role;
 }

@@ -4,10 +4,12 @@ import com.giatrong.learning.learnspringapi.dto.request.Auth.LoginRequest;
 import com.giatrong.learning.learnspringapi.dto.request.Auth.RegisterRequest;
 import com.giatrong.learning.learnspringapi.dto.response.Auth.AuthResponse;
 import com.giatrong.learning.learnspringapi.entity.User;
+import com.giatrong.learning.learnspringapi.enums.Role;
 import com.giatrong.learning.learnspringapi.repository.UserRepository;
 import com.giatrong.learning.learnspringapi.service.JwtService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder; // hash passwords
@@ -23,10 +26,13 @@ public class AuthService {
 
     @Transactional(rollbackOn =  Exception.class)
     public AuthResponse register(RegisterRequest request) {
+      log.info("Registering user -> start: {}", request);
         // 1. create a new User object from the RegisterRequest
         var user = User.builder()
                 .fullName(request.getFullName())
                 .username(request.getUsername())
+                .email(request.getEmail())
+                .role(Role.USER)
                 // 2. hash the password before saving it
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
@@ -37,6 +43,7 @@ public class AuthService {
         // 4. generate a JWT token for the saved user
         var jwtToken = jwtService.generateToken(savedUser);
 
+        log.info("Registering user -> end: {}", savedUser);
         return AuthResponse.builder().token(jwtToken).user(savedUser).build();
     }
 

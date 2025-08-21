@@ -6,6 +6,7 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,11 +17,13 @@ import org.springframework.context.annotation.Configuration;
         scheme = "bearer",
         bearerFormat = "JWT"
 )
+@Slf4j
 public class OpenAPIConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
         // call api: http://localhost:8080/api/v1/swagger-ui/index.html
+        log.info("Custom OpenAPI: http://localhost:8080/api/v1/swagger-ui/index.html");
         return new OpenAPI()
                 .info(new Info()
                         .title("Learn Spring API")

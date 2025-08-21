@@ -27,10 +27,6 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
 //                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/v1/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/error", "/favicon.ico")
-//                        .permitAll() // allow these endpoints without authentication
-//                        .anyRequest()
-//                        .authenticated() // require authentication for all other requests
 //                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

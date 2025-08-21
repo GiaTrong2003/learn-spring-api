@@ -14,14 +14,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper; // Sử dụng instance này
-    private final PasswordEncoder passwordEncoder; // Cần thiết cho việc tạo/cập nhật user
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
+    private final Counter userCreationCounter;
+    private final Timer userFetchTimer;
 
     // Lấy tất cả người dùng
     public List<UserDto> getAllUsers() {
@@ -36,6 +43,10 @@ public class UserService {
     }
 
     // Lấy một người dùng theo ID
+    @Timed(value= "user.fetch.time", description = "Time spent fetching user by ID")
+    // use @Timed annotation to track performance
+    // This will automatically create a timer metric for this method
+    // and record the time taken to execute it
     public UserDto getUserById(Long id) {
         log.info("Getting user by id: {}", id);
         UserDto user = userRepository.findById(id)
@@ -50,6 +61,7 @@ public class UserService {
     }
 
     // Tạo một người dùng mới từ DTO
+    @Timed(value= "user.creation.time", description = "Time spent creating a user")
     public UserDto createUser(UserCreateRequest request) {
         log.info("Creating user {}", request);
         // Kiểm tra xem username đã tồn tại chưa (ví dụ)
@@ -67,7 +79,13 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         log.info("Created user {}", savedUser);
-        return userMapper.toDto(savedUser);
+        UserDto result = userMapper.toDto(savedUser);
+        
+        // Increment counter
+        userCreationCounter.increment();
+        log.info("User created successfully with metrics tracked");
+        
+        return result;
     }
 
     // Cập nhật thông tin người dùng từ DTO

@@ -53,3 +53,52 @@ logging:
     total-size-cap: 100MB
     max-history: 30
     clean-history-on-start: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # Cách hiện đại để "mở" các endpoint. Liệt kê tất cả ở đây là đủ.
+        include: health,info,metrics,prometheus,loggers,env,threaddump,heapdump
+      base-path: /actuator # Giữ nguyên đường dẫn chung cho actuator
+
+  # Tùy chỉnh chi tiết cho từng endpoint cụ thể
+  endpoint:
+    health:
+      show-details: when-authorized # Hoặc 'always' khi phát triển
+      show-components: always
+
+  # Bật/tắt các chỉ báo sức khỏe (health indicator)
+  health:
+    diskspace:
+      enabled: true
+    db:
+      enabled: true
+
+  # Cấu hình chung cho metrics
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      environment: ${spring.profiles.active}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.5, 0.95, 0.99
+
+  # Cấu hình RIÊNG cho Prometheus (đã được chuyển ra ngoài theo chuẩn mới)
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+        step: 30s # Tần suất Prometheus scrape, 30 giây là hợp lý
+
+  # Cấu hình cho Distributed Tracing
+  tracing:
+    sampling:
+      probability: 0.1 # Lấy mẫu 10% request
+
+# Application metadata
+application:
+  version: 1.0.0
+  description: Learn Spring API - A comprehensive Spring Boot learning project

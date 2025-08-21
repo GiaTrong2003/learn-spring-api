@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: learn-spring-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "${MYSQL_PORT}:3306" # Expose MySQL port
+    volumes:
+      - mysql_data:/var/lib/mysql # Persistent storage for MySQL data
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d # Initialization scripts
+    networks:
+      - spring-network # Connect to the custom network
+    healthcheck: # Health check for MySQL
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"] # Check if MySQL is responsive
+      timeout: 20s # Timeout for the health check
+      retries: 10 # Number of retries before marking the service as unhealthy
+
+  # Redis Cache (for future implementation)
+  redis:
+    image: redis:7-alpine
+    container_name: learn-spring-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - spring-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Zipkin for distributed tracing
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: learn-spring-zipkin
+    restart: unless-stopped
+    ports:
+      - "9411:9411"
+    networks:
+      - spring-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9411/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  spring-network:
+    driver: bridge

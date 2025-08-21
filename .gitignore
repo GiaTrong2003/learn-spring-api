@@ -92,3 +92,8 @@ yarn-error.log*
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+
+# ========================
+# GITHUB - COPILOT (if you have GitHub Copilot - copilot-instructions)
+# ========================
+.github/

@@ -9,6 +9,8 @@ import com.giatrong.learning.learnspringapi.mapper.UserMapper;
 import com.giatrong.learning.learnspringapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder; // Giả sử bạn có tiêm PasswordEncoder
 import org.springframework.stereotype.Service;
@@ -68,7 +70,6 @@ public class UserService {
         return user;
     }
 
-    // Tạo một người dùng mới từ DTO
     @Timed(value= "user.creation.time", description = "Time spent creating a user")
     public UserDto createUser(UserCreateRequest request) {
         log.info("Creating user {}", request);
@@ -96,7 +97,7 @@ public class UserService {
         return result;
     }
 
-    // Cập nhật thông tin người dùng từ DTO
+    @CachePut(value = "users", key = "#userDto.id") // Luôn cập nhật cache
     public UserDto updateUser(Long id, UserUpdateRequest request) {
         log.info("Updating user with id: {} with request: {}", id, request);
         
@@ -117,7 +118,7 @@ public class UserService {
         return userMapper.toDto(updatedUser);
     }
 
-    // Xóa người dùng
+    @CacheEvict(value = "users", key = "#id") // Xóa khỏi cache
     public void deleteUser(Long id) {
         log.info("Attempting to delete user with id: {}", id);
         

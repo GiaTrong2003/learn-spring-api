@@ -1,5 +1,6 @@
 package com.giatrong.learning.learnspringapi.dto.response;
 
+import com.giatrong.learning.learnspringapi.enums.SwaggerDefaultValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,40 +14,40 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Health check response containing system status and metrics")
+@Schema(description = SwaggerDefaultValue.HEALTH_RESPONSE_DESC)
 public class HealthResponse {
 
-    @Schema(description = "Overall system status", example = "UP")
+    @Schema(description = SwaggerDefaultValue.OVERALL_STATUS_DESC, example = SwaggerDefaultValue.HEALTH_STATUS_UP)
     private String status;
 
-    @Schema(description = "Application version", example = "1.0.0")
+    @Schema(description = SwaggerDefaultValue.APP_VERSION_DESC, example = SwaggerDefaultValue.APPLICATION_VERSION)
     private String version;
 
-    @Schema(description = "Current server timestamp", example = "2024-01-15T10:30:00")
+    @Schema(description = SwaggerDefaultValue.TIMESTAMP_DESC, example = SwaggerDefaultValue.HEALTH_TIMESTAMP)
     private LocalDateTime timestamp;
 
-    @Schema(description = "Application uptime in milliseconds", example = "3600000")
+    @Schema(description = SwaggerDefaultValue.UPTIME_DESC, example = SwaggerDefaultValue.APPLICATION_UPTIME)
     private Long uptime;
 
-    @Schema(description = "Environment profile", example = "dev")
+    @Schema(description = SwaggerDefaultValue.ENVIRONMENT_DESC, example = SwaggerDefaultValue.ENVIRONMENT_PROFILE)
     private String environment;
 
-    @Schema(description = "Detailed component health status")
+    @Schema(description = SwaggerDefaultValue.COMPONENT_STATUS_DESC)
     private Map<String, ComponentHealth> components;
 
-    @Schema(description = "Additional system information")
+    @Schema(description = SwaggerDefaultValue.ADDITIONAL_SYSTEM_INFO_DESC)
     private SystemInfo systemInfo;
 
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    @Schema(description = "Individual component health status")
+    @Schema(description = SwaggerDefaultValue.COMPONENT_HEALTH_DESC)
     public static class ComponentHealth {
-        @Schema(description = "Component status", example = "UP")
+        @Schema(description = SwaggerDefaultValue.COMP_STATUS_DESC, example = SwaggerDefaultValue.HEALTH_STATUS_UP)
         private String status;
 
-        @Schema(description = "Component details")
+        @Schema(description = SwaggerDefaultValue.COMP_DETAILS_DESC)
         private Map<String, Object> details;
     }
 
@@ -54,24 +55,24 @@ public class HealthResponse {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    @Schema(description = "System information")
+    @Schema(description = SwaggerDefaultValue.SYSTEM_INFO_DESC)
     public static class SystemInfo {
-        @Schema(description = "Java version", example = "21.0.1")
+        @Schema(description = SwaggerDefaultValue.JAVA_VERSION_DESC, example = SwaggerDefaultValue.JAVA_VERSION)
         private String javaVersion;
 
-        @Schema(description = "Operating system", example = "Mac OS X")
+        @Schema(description = SwaggerDefaultValue.OS_NAME_DESC, example = SwaggerDefaultValue.OS_NAME)
         private String osName;
 
-        @Schema(description = "Total memory in MB", example = "512")
+        @Schema(description = SwaggerDefaultValue.TOTAL_MEMORY_DESC, example = SwaggerDefaultValue.TOTAL_MEMORY)
         private Long totalMemory;
 
-        @Schema(description = "Free memory in MB", example = "256")
+        @Schema(description = SwaggerDefaultValue.FREE_MEMORY_DESC, example = SwaggerDefaultValue.FREE_MEMORY)
         private Long freeMemory;
 
-        @Schema(description = "Used memory in MB", example = "256")
+        @Schema(description = SwaggerDefaultValue.USED_MEMORY_DESC, example = SwaggerDefaultValue.USED_MEMORY)
         private Long usedMemory;
 
-        @Schema(description = "Memory usage percentage", example = "50.0")
+        @Schema(description = SwaggerDefaultValue.MEMORY_USAGE_DESC, example = SwaggerDefaultValue.MEMORY_USAGE_PERCENTAGE)
         private Double memoryUsage;
     }
 }

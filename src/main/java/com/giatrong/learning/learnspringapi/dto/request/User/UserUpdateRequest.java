@@ -1,24 +1,25 @@
 package com.giatrong.learning.learnspringapi.dto.request.User;
 
 import com.giatrong.learning.learnspringapi.enums.Role;
+import com.giatrong.learning.learnspringapi.enums.SwaggerDefaultValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
-@Schema(description = "User update request")
+@Schema(description = SwaggerDefaultValue.USER_UPDATE_DESC)
 public class UserUpdateRequest {
     
-    @Size(min = 2, max = 100, message = "Full name must be between 2 and 100 characters")
-    @Pattern(regexp = "^[a-zA-Z\\s]*$", message = "Full name can only contain letters and spaces")
-    @Schema(description = "Full name of the user", example = "John Doe Smith")
+    @Size(min = 2, max = 100, message = SwaggerDefaultValue.FULL_NAME_SIZE)
+    @Pattern(regexp = "^[a-zA-Z\\s]*$", message = SwaggerDefaultValue.FULL_NAME_PATTERN_OPTIONAL)
+    @Schema(description = SwaggerDefaultValue.FULL_NAME_DESC, example = SwaggerDefaultValue.FULL_NAME_UPDATED_EXAMPLE)
     private String fullName;
     
-    @Email(message = "Email must be a valid email address")
-    @Size(max = 100, message = "Email must not exceed 100 characters")
-    @Schema(description = "Email address of the user", example = "john.smith@example.com")
+    @Email(message = SwaggerDefaultValue.EMAIL_VALID)
+    @Size(max = 100, message = SwaggerDefaultValue.EMAIL_SIZE)
+    @Schema(description = SwaggerDefaultValue.EMAIL_DESC, example = SwaggerDefaultValue.EMAIL_UPDATED_EXAMPLE)
     private String email;
     
-    @Schema(description = "Role of the user", example = "USER")
+    @Schema(description = SwaggerDefaultValue.ROLE_DESC, example = SwaggerDefaultValue.ROLE_EXAMPLE)
     private Role role;
 }

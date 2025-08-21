@@ -131,6 +131,45 @@ public final class SwaggerDefaultValue {
     public static final String APP_RUNNING = "Application is running";
     public static final String HEALTH_CHECK_ISSUES = "System health check detected issues";
     
+    // ========== ADDITIONAL RESPONSE DESCRIPTIONS ==========
+    public static final String AUTH_RESPONSE_DESC = "Authentication response containing JWT token and user information";
+    public static final String USER_DTO_DESC = "User data transfer object for API responses";
+    public static final String HTTP_STATUS_CODE_DESC = "HTTP status code";
+    public static final String RESPONSE_MESSAGE_DESC = "Response message";
+    public static final String RESPONSE_DATA_DESC = "Response data";
+    public static final String JWT_TOKEN_DESC = "JWT access token for authentication";
+    public static final String USER_INFO_DESC = "User information";
+    public static final String USER_ID_DESC = "User unique identifier";
+    
+    // ========== ADDITIONAL EXAMPLES ==========
+    public static final String HTTP_STATUS_EXAMPLE = "200";
+    public static final String RESPONSE_MESSAGE_EXAMPLE = "Operation completed successfully";
+    public static final String JWT_TOKEN_EXAMPLE = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
+    public static final String USER_ID_EXAMPLE = "1";
+    
+    // ========== VALIDATION MESSAGES ==========
+    // Username validation messages
+    public static final String USERNAME_REQUIRED = "Username is required";
+    public static final String USERNAME_SIZE = "Username must be between 3 and 50 characters";
+    public static final String USERNAME_PATTERN = "Username can only contain letters, numbers, and underscores";
+    
+    // Password validation messages
+    public static final String PASSWORD_REQUIRED = "Password is required";
+    public static final String PASSWORD_SIZE = "Password must be between 8 and 100 characters";
+    public static final String PASSWORD_SIZE_LOGIN = "Password cannot be empty";
+    public static final String PASSWORD_PATTERN = "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character";
+    
+    // Full name validation messages
+    public static final String FULL_NAME_REQUIRED = "Full name is required";
+    public static final String FULL_NAME_SIZE = "Full name must be between 2 and 100 characters";
+    public static final String FULL_NAME_PATTERN = "Full name can only contain letters and spaces";
+    public static final String FULL_NAME_PATTERN_OPTIONAL = "Full name can only contain letters and spaces";
+    
+    // Email validation messages
+    public static final String EMAIL_REQUIRED = "Email is required";
+    public static final String EMAIL_VALID = "Email must be a valid email address";
+    public static final String EMAIL_SIZE = "Email must not exceed 100 characters";
+    
     // Private constructor to prevent instantiation
     private SwaggerDefaultValue() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");

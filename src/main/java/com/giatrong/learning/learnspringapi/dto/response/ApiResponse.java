@@ -1,5 +1,6 @@
 package com.giatrong.learning.learnspringapi.dto.response;
 
+import com.giatrong.learning.learnspringapi.enums.SwaggerDefaultValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +13,16 @@ import java.util.List;
 @Builder // using a builder pattern to create instances of this class
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Generic API response object")
+@Schema(description = SwaggerDefaultValue.API_RESPONSE_DESC)
 public class ApiResponse<T> { // T is a generic type, can be any type of object
+    
+    @Schema(description = SwaggerDefaultValue.HTTP_STATUS_CODE_DESC, example = SwaggerDefaultValue.HTTP_STATUS_EXAMPLE)
     private int statusCode; // HTTP status code
+    
+    @Schema(description = SwaggerDefaultValue.RESPONSE_MESSAGE_DESC, example = SwaggerDefaultValue.RESPONSE_MESSAGE_EXAMPLE)
     private String message;
+    
+    @Schema(description = SwaggerDefaultValue.RESPONSE_DATA_DESC)
     private T data; // Generic type to hold any data, can be null if no data is returned
 
     // == Factory methods convenient ==

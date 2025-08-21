@@ -16,13 +16,13 @@ import lombok.NoArgsConstructor;
 @Schema(description = SwaggerDefaultValue.USER_LOGIN_DESC)
 public class LoginRequest {
     
-    @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
+    @NotBlank(message = SwaggerDefaultValue.USERNAME_REQUIRED)
+    @Size(min = 3, max = 50, message = SwaggerDefaultValue.USERNAME_SIZE)
     @Schema(description = SwaggerDefaultValue.USERNAME_AUTH_DESC, example = SwaggerDefaultValue.USERNAME_EXAMPLE, required = true)
     private String username;
     
-    @NotBlank(message = "Password is required")
-    @Size(min = 1, max = 100, message = "Password cannot be empty")
+    @NotBlank(message = SwaggerDefaultValue.PASSWORD_REQUIRED)
+    @Size(min = 1, max = 100, message = SwaggerDefaultValue.PASSWORD_SIZE_LOGIN)
     @Schema(description = SwaggerDefaultValue.PASSWORD_AUTH_DESC, example = SwaggerDefaultValue.PASSWORD_EXAMPLE, required = true)
     private String password;
 }

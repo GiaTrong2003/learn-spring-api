@@ -1,5 +1,6 @@
 package com.giatrong.learning.learnspringapi.dto.request.Auth;
 
+import com.giatrong.learning.learnspringapi.enums.SwaggerDefaultValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -11,33 +12,33 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "User registration request")
+@Schema(description = SwaggerDefaultValue.USER_REGISTRATION_DESC)
 public class RegisterRequest {
     
-    @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Username can only contain letters, numbers, and underscores")
-    @Schema(description = "Username for the new account", example = "john_doe123", required = true)
+    @NotBlank(message = SwaggerDefaultValue.USERNAME_REQUIRED)
+    @Size(min = 3, max = 50, message = SwaggerDefaultValue.USERNAME_SIZE)
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = SwaggerDefaultValue.USERNAME_PATTERN)
+    @Schema(description = SwaggerDefaultValue.USERNAME_DESC, example = SwaggerDefaultValue.USERNAME_EXAMPLE, required = true)
     private String username;
     
-    @NotBlank(message = "Password is required")
-    @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
+    @NotBlank(message = SwaggerDefaultValue.PASSWORD_REQUIRED)
+    @Size(min = 8, max = 100, message = SwaggerDefaultValue.PASSWORD_SIZE)
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&].*$", 
-             message = "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character")
-    @Schema(description = "Password for the new account (min 8 chars, must contain uppercase, lowercase, digit, and special character)", 
-            example = "SecurePass123!", required = true)
+             message = SwaggerDefaultValue.PASSWORD_PATTERN)
+    @Schema(description = SwaggerDefaultValue.PASSWORD_DESC, 
+            example = SwaggerDefaultValue.PASSWORD_EXAMPLE, required = true)
     private String password;
     
-    @NotBlank(message = "Full name is required")
-    @Size(min = 2, max = 100, message = "Full name must be between 2 and 100 characters")
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Full name can only contain letters and spaces")
-    @Schema(description = "Full name of the user", example = "John Doe", required = true)
+    @NotBlank(message = SwaggerDefaultValue.FULL_NAME_REQUIRED)
+    @Size(min = 2, max = 100, message = SwaggerDefaultValue.FULL_NAME_SIZE)
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = SwaggerDefaultValue.FULL_NAME_PATTERN)
+    @Schema(description = SwaggerDefaultValue.FULL_NAME_DESC, example = SwaggerDefaultValue.FULL_NAME_EXAMPLE, required = true)
     private String fullName;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Email must be a valid email address")
-    @Size(max = 100, message = "Email must not exceed 100 characters")
-    @Schema(description = "Email address of the user", example = "john.doe@example.com", required = true)
+    @NotBlank(message = SwaggerDefaultValue.EMAIL_REQUIRED)
+    @Email(message = SwaggerDefaultValue.EMAIL_VALID)
+    @Size(max = 100, message = SwaggerDefaultValue.EMAIL_SIZE)
+    @Schema(description = SwaggerDefaultValue.EMAIL_DESC, example = SwaggerDefaultValue.EMAIL_EXAMPLE, required = true)
     private String email;
 
     private String role;

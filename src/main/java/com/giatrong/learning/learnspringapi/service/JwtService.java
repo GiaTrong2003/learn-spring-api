@@ -9,6 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,10 +19,10 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret:your-secret}")
+    @Value("${jwt.access.secret:1234567890qwertyuiopasdfghjklzxcvbnm}")
     private String SECRET;
 
-    @Value("${jwt.expiration:3600}") // 3600 seconds = 1 hour
+    @Value("${jwt.access.expiration:3600}") // 3600 seconds = 1 hour
     private long EXPIRATION_TIME;
 
     // Trích xuất username từ token
@@ -83,7 +84,6 @@ public class JwtService {
 
     // Lấy signing key từ secret key
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
-        return Keys.hmacShaKeyFor(keyBytes);
+        return Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
     }
 }

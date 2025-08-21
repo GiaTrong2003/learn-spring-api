@@ -9,6 +9,7 @@ import com.giatrong.learning.learnspringapi.mapper.UserMapper;
 import com.giatrong.learning.learnspringapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder; // Giả sử bạn có tiêm PasswordEncoder
 import org.springframework.stereotype.Service;
 
@@ -47,8 +48,15 @@ public class UserService {
     // use @Timed annotation to track performance
     // This will automatically create a timer metric for this method
     // and record the time taken to execute it
+    @Cacheable(value = "users", key = "#id")
     public UserDto getUserById(Long id) {
         log.info("Getting user by id: {}", id);
+        log.info("Đang gọi xuống Database để lấy user với id: {}", id);
+        try {
+            Thread.sleep(2000); // Giả lập độ trễ 2 giây
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         UserDto user = userRepository.findById(id)
                 // Dùng instance mapper đã được tiêm vào
                 .map(userMapper::toDto)

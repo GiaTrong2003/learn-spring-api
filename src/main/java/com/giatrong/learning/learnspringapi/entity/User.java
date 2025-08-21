@@ -1,5 +1,6 @@
 package com.giatrong.learning.learnspringapi.entity;
 
+import com.giatrong.learning.learnspringapi.common.entities.BaseEntity;
 import com.giatrong.learning.learnspringapi.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -21,11 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity implements UserDetails {
 
     @Column(nullable = false, unique = true)
     @Size(min = 1 , max = 50, message = "Username must be between 1 and 50 characters")

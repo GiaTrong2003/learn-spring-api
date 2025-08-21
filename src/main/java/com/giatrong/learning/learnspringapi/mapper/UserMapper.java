@@ -22,14 +22,12 @@ public interface UserMapper {
     /* =====================
        DTO → ENTITY
        ===================== */
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true) // password handle in service
     User toEntity(UserDto userDto);
 
     /* =====================
        CREATE REQUEST → ENTITY
        ===================== */
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "role", expression = "java(getDefaultUserRole())")
     @Mapping(target = "password", ignore = true) // encode in service
     @Mapping(target = "username", ignore = true) // set in service
@@ -38,7 +36,6 @@ public interface UserMapper {
     /* =====================
        UPDATE REQUEST → ENTITY
        ===================== */
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "username", ignore = true) // username not update
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

@@ -14,24 +14,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Schema(description = SwaggerDefaultValue.USER_REGISTRATION_DESC)
 public class RegisterRequest {
-    
+
     @NotBlank(message = SwaggerDefaultValue.USERNAME_REQUIRED)
     @Size(min = 3, max = 50, message = SwaggerDefaultValue.USERNAME_SIZE)
     @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = SwaggerDefaultValue.USERNAME_PATTERN)
     @Schema(description = SwaggerDefaultValue.USERNAME_DESC, example = SwaggerDefaultValue.USERNAME_EXAMPLE, required = true)
     private String username;
-    
+
     @NotBlank(message = SwaggerDefaultValue.PASSWORD_REQUIRED)
     @Size(min = 8, max = 100, message = SwaggerDefaultValue.PASSWORD_SIZE)
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&].*$", 
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&].*$",
              message = SwaggerDefaultValue.PASSWORD_PATTERN)
-    @Schema(description = SwaggerDefaultValue.PASSWORD_DESC, 
+    @Schema(description = SwaggerDefaultValue.PASSWORD_DESC,
             example = SwaggerDefaultValue.PASSWORD_EXAMPLE, required = true)
     private String password;
-    
+
     @NotBlank(message = SwaggerDefaultValue.FULL_NAME_REQUIRED)
     @Size(min = 2, max = 100, message = SwaggerDefaultValue.FULL_NAME_SIZE)
-    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = SwaggerDefaultValue.FULL_NAME_PATTERN)
+    @Pattern(regexp = "^[\\p{L}\\s]+$", message = SwaggerDefaultValue.FULL_NAME_PATTERN)
     @Schema(description = SwaggerDefaultValue.FULL_NAME_DESC, example = SwaggerDefaultValue.FULL_NAME_EXAMPLE, required = true)
     private String fullName;
 
@@ -41,5 +41,6 @@ public class RegisterRequest {
     @Schema(description = SwaggerDefaultValue.EMAIL_DESC, example = SwaggerDefaultValue.EMAIL_EXAMPLE, required = true)
     private String email;
 
+    @Schema(description = SwaggerDefaultValue.ROLE_DESC, allowableValues = SwaggerDefaultValue.ROLE_EXAMPLE, example = SwaggerDefaultValue.ROLE_EXAMPLE, required = true)
     private String role;
 }

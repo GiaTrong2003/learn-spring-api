@@ -33,7 +33,7 @@ public class ApiResponse<T> { // T is a generic type, can be any type of object
         // when you call builder() -> it is building an instance of ApiResponse<T> -> using a builder pattern
     }
 
-    public static <T> ApiResponse<List<T>> success(List<T> data, String message, int statusCode) {
+    public static <T> ApiResponse<List<T>> success(List<T> data, String message, int statusCode, T filter) {
         return ApiResponse.<List<T>>builder().statusCode(statusCode).message(message).data(data).build();
     }
 

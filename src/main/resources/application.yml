@@ -38,6 +38,9 @@ springdoc:
   swagger-ui:
     tags-sorter: alpha
     path: /api/v1/docs
+  model-and-view-converters:
+    pageable-converter:
+      enabled: true # Bật tính năng tự động chuyển đổi Pageable thành các query parameter
 
 logging:
   level:

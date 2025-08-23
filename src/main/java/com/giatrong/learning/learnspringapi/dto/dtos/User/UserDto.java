@@ -1,4 +1,4 @@
-package com.giatrong.learning.learnspringapi.dto.response;
+package com.giatrong.learning.learnspringapi.dto.dtos.User;
 
 import com.giatrong.learning.learnspringapi.enums.Role;
 import com.giatrong.learning.learnspringapi.enums.SwaggerDefaultValue;
@@ -25,6 +25,4 @@ public class UserDto {
     
     @Schema(description = SwaggerDefaultValue.ROLE_DESC, example = SwaggerDefaultValue.ROLE_EXAMPLE)
     private Role role;
-
-    // don't return password in the response
 }

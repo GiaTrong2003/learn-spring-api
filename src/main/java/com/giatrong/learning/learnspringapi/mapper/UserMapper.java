@@ -2,7 +2,7 @@ package com.giatrong.learning.learnspringapi.mapper;
 
 import com.giatrong.learning.learnspringapi.dto.request.User.UserCreateRequest;
 import com.giatrong.learning.learnspringapi.dto.request.User.UserUpdateRequest;
-import com.giatrong.learning.learnspringapi.dto.response.UserDto;
+import com.giatrong.learning.learnspringapi.dto.dtos.User.UserDto;
 import com.giatrong.learning.learnspringapi.entity.User;
 import com.giatrong.learning.learnspringapi.enums.Role;
 import org.mapstruct.*;

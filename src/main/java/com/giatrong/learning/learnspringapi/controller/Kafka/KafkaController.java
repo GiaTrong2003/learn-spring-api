@@ -1,4 +1,4 @@
-package com.giatrong.learning.learnspringapi.controller;
+package com.giatrong.learning.learnspringapi.controller.Kafka;
 
 import com.giatrong.learning.learnspringapi.producer.KafkaProducerService;
 import lombok.RequiredArgsConstructor;

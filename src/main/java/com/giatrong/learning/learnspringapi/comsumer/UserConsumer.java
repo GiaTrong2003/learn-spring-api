@@ -9,8 +9,14 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserConsumer {
 
-    @KafkaListener(topics = "user-topic-2", groupId = "user-group-1")
+//    @KafkaListener(topics = "user-topic-3", groupId = "user-group-2")
     public void listen(UserDto event) {
-        log.info("📩 Received UserEvent: {}", event);
+        try {
+            log.info("📩 Received UserEvent: {}", event);
+
+        } catch (Exception e) {
+            System.err.println("!!!!!!!!!!!!!! LỖI NGHIÊM TRỌNG TRONG KAFKA LISTENER !!!!!!!!!!!!!!");
+            e.printStackTrace();
+        }
     }
 }
